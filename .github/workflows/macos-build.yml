@@ -1,0 +1,30 @@
+
+name: macOS Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.5.2'
+
+      - name: Build with qmake
+        run: |
+          qmake WiseUI.pro
+          make
+
+      - name: Deploy App
+        run: |
+          mkdir -p release
+          cp -R WiseUI.app release/
+          cd release
+          zip -r WiseUI.zip WiseUI.app
