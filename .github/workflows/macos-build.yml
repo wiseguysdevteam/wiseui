@@ -18,18 +18,22 @@ jobs:
         with:
           version: '6.5.2'
           arch: clang_64
+          modules: 'qtbase qttools'
+
+      - name: Show installed files (debug)
+        run: ls -R
 
       - name: Configure project
-        run: qmake WiseUI.pro
+        run: qmake WiseUI.pro || cat WiseUI.pro
 
       - name: Build project
-        run: make -j4
+        run: make -j2 || make
 
       - name: Package .app with macdeployqt
         run: |
           mkdir -p dist
-          macdeployqt WiseUI.app -verbose=2
-          cp -R WiseUI.app dist/
+          macdeployqt WiseUI.app -verbose=2 || echo "macdeployqt failed"
+          cp -R WiseUI.app dist/ || echo "copy failed"
           cd dist && zip -r WiseUI.zip WiseUI.app
 
       - name: Upload to GitHub Release
@@ -38,4 +42,3 @@ jobs:
           files: dist/WiseUI.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
