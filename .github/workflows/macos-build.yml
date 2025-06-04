@@ -18,7 +18,7 @@ jobs:
         with:
           version: '6.5.2'
           arch: clang_64
-          modules: 'qtbase qttools'
+     '
 
       - name: Show installed files (debug)
         run: ls -R
