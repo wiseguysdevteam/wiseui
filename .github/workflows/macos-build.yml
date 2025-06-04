@@ -2,8 +2,8 @@ name: macOS Build
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
   build-macos:
@@ -38,3 +38,4 @@ jobs:
           files: dist/WiseUI.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
